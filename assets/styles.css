@@ -205,53 +205,36 @@ h3 { font-size: 1.1875rem; font-weight: 500; letter-spacing: -.01em; line-height
   .hero-media img { object-position: 60% 55%; }
 }
 
-/* ---------- barra de prova social ---------- */
-.proof { position: relative; z-index: 1; background: #fff; padding-block: 6px 22px; }
-/* celular: rótulo em cima e botão de pausa embaixo, à esquerda (o botão flutuante de WhatsApp fica no canto direito e não pode cobri-lo) */
-.proof-head { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 8px; }
-@media (min-width: 640px) { .proof-head { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; } }
+/* ---------- barra de prova social: grade fixa, sem rolagem nem animação ---------- */
+.proof { position: relative; z-index: 1; background: #fff; padding-block: 14px 30px; }
+.proof-head { margin-bottom: 14px; text-align: center; }
 .proof-label { font: 600 .75rem/1.2 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
-.proof-pause { display: none; align-items: center; gap: .45em; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font: 600 .8125rem/1 var(--f-body); cursor: pointer; }
-.proof-pause svg { width: 16px; height: 16px; fill: currentColor; stroke: none; flex: none; }
-.proof-pause .i-play { display: none; }
-.proof-pause.is-on .i-play { display: block; }
-.proof-pause.is-on .i-pause { display: none; }
-.proof-pause:hover { border-color: var(--ink); }
-/* o carrossel anima em todas as larguras, exceto com "reduzir movimento"; só então o botão de pausa faz sentido */
-@media (prefers-reduced-motion: no-preference) { .proof-pause { display: inline-flex; } }
-.proof-track { display: flex; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
-.proof-list { display: flex; flex: none; align-items: center; gap: 34px; padding-right: 34px; animation: marquee 38s linear infinite; }
-.proof-track:hover .proof-list, .proof-track:focus-within .proof-list, .proof-track.is-paused .proof-list { animation-play-state: paused; }
-@keyframes marquee { to { transform: translateX(-100%); } }
-.seal { display: flex; align-items: center; flex: none; height: 48px; }
-.seal img { width: auto; max-width: none; }
-.seal--google img { height: 32px; }
-.seal--meta img { height: 42px; }
-.seal--semrush img { height: 46px; }
-.seal--cannes img { height: 50px; }
-.seal--oneshow img { height: 30px; }
-.seal--dna img { height: 46px; }
-.seal--conv img { height: 22px; }
-.seal--blue img { height: 36px; mix-blend-mode: multiply; }
-.seal--hubspot img { height: 30px; }
-.seal--uberall img { height: 35px; }
-.seal--mit img { height: 30px; }
-.seal--effie img { height: 38px; }
-.seal-pit { flex-direction: row; align-items: center; gap: 10px; padding: 7px 14px; }
-.seal-pit img { height: 34px; width: auto; max-width: none; }
-.seal-pit small { margin-top: 0; }
-.seal-txt { display: inline-flex; flex-direction: column; justify-content: center; flex: none; padding: 9px 14px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); text-decoration: none; white-space: nowrap; background: #fff; }
-.seal-txt b { font: 600 1.0625rem/1 var(--f-display); letter-spacing: -.01em; }
-.seal-txt small { font: 600 .75rem/1.2 var(--f-body); letter-spacing: .01em; color: var(--mute); margin-top: 4px; }
-a.seal-txt:hover { border-color: var(--ink); }
+.proof-grid { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.proof-grid .seal { flex: 0 0 calc((100% - 20px) / 3); height: 64px; display: flex; align-items: center; justify-content: center; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.proof-grid .seal img { width: auto; height: auto; max-width: 100%; max-height: 40px; object-fit: contain; }
+.seal--google img { max-height: 30px !important; }
+.seal--conv img { max-height: 20px !important; }
+.seal--hubspot img, .seal--oneshow img, .seal--mit img { max-height: 28px !important; }
+.seal--uberall img, .seal--blue img, .seal--effie img { max-height: 32px !important; }
+.seal--blue img { mix-blend-mode: multiply; }
+.proof-grid .seal--pit { flex-basis: calc((200% - 10px) / 3); padding: 0; }
+.seal-pit { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 100%; padding: 8px 12px; border-radius: 12px; color: var(--ink); text-decoration: none; }
+.seal-pit img { max-height: 32px !important; }
+.seal-pit small { font: 600 .75rem/1.2 var(--f-body); color: var(--mute); white-space: nowrap; }
+.proof-grid .seal--pit:hover { border-color: var(--ink); }
+@media (min-width: 640px) {
+  .proof-grid { gap: 12px; }
+  .proof-grid .seal { flex-basis: calc((100% - 36px) / 4); height: 72px; }
+  .proof-grid .seal--pit { flex-basis: calc((100% - 36px) / 4 * 2 + 12px); }
+}
 @media (min-width: 960px) {
-  .proof { padding-block: 10px 30px; }
-  .seal-txt { padding: 9px 12px; }
+  .proof { padding-block: 20px 40px; }
+  .proof-head { margin-bottom: 18px; }
+  .proof-grid .seal { flex-basis: calc((100% - 72px) / 7); height: 76px; }
+  .proof-grid .seal--pit { flex-basis: calc((100% - 72px) / 7 * 2 + 12px); }
+  .proof-grid .seal img { max-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .proof-track { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-  .proof-list { animation: none; }
-  .proof-list[aria-hidden="true"] { display: none; }
   .hero-title s { animation: none; }
 }
 
