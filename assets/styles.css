@@ -465,10 +465,10 @@ body:not(.dock-on) .wa-fab { bottom: calc(16px + env(safe-area-inset-bottom, 0px
 @media (min-width: 900px) { .phero-media { display: block; } }
 
 /* pills de navegação (O que fazemos) */
-.pills { position: sticky; top: calc(65px + env(safe-area-inset-top, 0px)); z-index: 40; background: rgba(246, 243, 236, .95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-.pills ul { display: flex; gap: 8px; overflow-x: auto; padding: 10px var(--gutter); scrollbar-width: none; max-width: calc(var(--max) + var(--gutter) * 2); margin-inline: auto; }
+.pills { position: relative; z-index: 40; background: rgba(246, 243, 236, .95); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.pills ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 10px var(--gutter); scrollbar-width: none; max-width: calc(var(--max) + var(--gutter) * 2); margin-inline: auto; }
 .pills ul::-webkit-scrollbar { display: none; }
-.pills a { display: inline-flex; align-items: center; gap: .5em; white-space: nowrap; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-weight: 600; font-size: .9375rem; }
+.pills a { display: inline-flex; align-items: center; gap: .5em; white-space: nowrap; min-height: 40px; padding: 0 12px; font-size: .875rem !important; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-weight: 600; font-size: .9375rem; }
 .pills a svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; color: var(--orange-ink); }
 .pills a[aria-current="true"] { background: var(--navy); color: #fff; border-color: var(--navy); }
 .pills a[aria-current="true"] svg { color: var(--orange-lit); }
@@ -1004,3 +1004,7 @@ a.ccard:hover { border-color: var(--ink); }
 @media (min-width: 640px) { .svc .svc-fix { margin-top: auto; } .svc .svc-fix + .link-arrow { margin-top: -6px; } }
 .svc .svc-fix b { color: var(--orange-ink); font-weight: 600; }
 .pillar-eb { margin-bottom: 4px; }
+
+/* atalhos das frentes: fixos só quando o cabeçalho tem uma linha (>= 1240 px) */
+@media (min-width: 640px) { .pills a { min-height: 44px; padding: 0 16px; font-size: .9375rem !important; } }
+@media (min-width: 1240px) { .pills { position: sticky; top: calc(64px + env(safe-area-inset-top, 0px)); } }

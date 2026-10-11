@@ -111,7 +111,7 @@
     if (!v) return required ? (box.getAttribute('data-err') || 'Preencha este campo.') : '';
     if (kind === 'email' && !EMAIL_RE.test(v)) return 'Informe um e-mail válido, como nome@empresa.com.br.';
     if (kind === 'cnpj' && !cnpjOk(v)) return 'Confira o CNPJ. Ele tem 14 caracteres (numérico ou alfanumérico), como 00.000.000/0001-00.';
-    if (kind === 'tel' && v.replace(/\D/g, '').length < 10) return 'Informe um telefone com DDD, por exemplo (12) 99999-9999.';
+    if (kind === 'tel' && v.replace(/\D/g, '').length < 10) return 'Informe um telefone com DDD, por exemplo (11) 99999-9999.';
     return '';
   }
   form.addEventListener('focusout', function (e) {
@@ -242,7 +242,7 @@
   function two(v) { return ('0' + v).slice(-2); }
 
   /* ---------- interesse vindo do botão clicado em outra página (#frente-…) ---------- */
-  var FRENTES = { inovacao: 'Inovação e Estratégia', branding: 'Branding', social: 'Social Media', seo: 'SEO e Presença em IA', vendas: 'Vendas e CRM' };
+  var FRENTES = { inovacao: 'Inovação e Estratégia', branding: 'Marca (Branding)', social: 'Redes sociais e anúncios', seo: 'Google e IA (SEO)', vendas: 'Vendas e CRM' };
   (function () {
     var m = /^#frente-([a-z]+)/.exec(location.hash || ''), f = m && FRENTES[m[1]];
     var inp = form.elements.namedItem('Frente de interesse'), chip = d.getElementById('wiz-chip');
