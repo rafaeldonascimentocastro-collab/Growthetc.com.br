@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+<defs><radialGradient id="g" cx="1" cy="0" r="1"><stop offset="0" stop-color="#DF5D2B" stop-opacity=".32"/><stop offset=".6" stop-color="#DF5D2B" stop-opacity="0"/></radialGradient>
+<pattern id="d" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#FFFFFF" fill-opacity=".08"/></pattern></defs>
+<rect width="1200" height="630" fill="#182933"/><rect width="1200" height="630" fill="url(#d)"/><rect width="1200" height="630" fill="url(#g)"/>
+<polygon points="0,630 520,630 380,0 0,0" fill="#0F1A21" fill-opacity=".55"/>
+<rect x="80" y="96" width="120" height="10" rx="5" fill="#DF5D2B"/>
+<rect x="80" y="140" width="300" height="22" rx="11" fill="#FFFFFF" fill-opacity=".14"/><rect x="80" y="180" width="240" height="22" rx="11" fill="#FFFFFF" fill-opacity=".09"/>
+<line x1="850" y1="170" x2="850" y2="480" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+       <path d="M790 480 H910" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/>
+       <g transform="rotate(-12 850 210)"><line x1="660" y1="210" x2="1040" y2="210" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+       <path d="M660 210 L610 320 H710 Z" fill="none" stroke="#8FB3C6" stroke-width="3"/><path d="M605 320 A55 22 0 0 0 715 320 Z" fill="#DF5D2B"/>
+       <path d="M1040 210 L990 320 H1090 Z" fill="none" stroke="#8FB3C6" stroke-width="3"/><path d="M985 320 A55 22 0 0 0 1095 320 Z" fill="#FFFFFF" fill-opacity=".35"/></g>
+       <circle cx="850" cy="170" r="14" fill="#DF5D2B"/>
+</svg>

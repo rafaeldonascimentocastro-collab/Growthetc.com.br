@@ -970,3 +970,29 @@ a.ccard:hover { border-color: var(--ink); }
   .ice-fig { position: sticky; top: 96px; justify-self: stretch; }
   .ice-tag { font-size: 1.625rem; }
 }
+
+/* ---------- blog ---------- */
+.post-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.post-card a { display: grid; gap: 10px; height: 100%; padding-bottom: 20px; border-radius: 18px; overflow: hidden; background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+.post-card a > :not(img) { margin-inline: 20px; }
+.post-card img { width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover; display: block; margin-bottom: 6px; }
+.post-card h2, .post-card h3 { font: 400 1.3125rem/1.25 var(--f-display); letter-spacing: -.01em; }
+.post-card p { color: var(--mute); font-size: .9375rem; line-height: 1.5; }
+.post-card a:hover { transform: translateY(-3px); box-shadow: 0 24px 48px -28px rgba(24, 41, 51, .45); }
+.post-card a:hover h2, .post-card a:hover h3 { color: var(--orange-ink); }
+.post-cat { font: 600 .75rem/1.2 var(--f-body); letter-spacing: .12em; text-transform: uppercase; color: var(--orange-ink); }
+.post-cat--lit { color: var(--orange-lit); }
+.post-meta { font-size: .8125rem; color: var(--mute); }
+.post-meta--lit { color: var(--mute-lit); margin-top: 14px; }
+.post-hero h1 { margin-top: 8px; max-width: 46rem; }
+.post-sec { padding-top: clamp(28px, 4vw, 48px); }
+.post-cover { max-width: 46rem; margin: 0 auto clamp(24px, 4vw, 40px); border-radius: 18px; overflow: hidden; }
+.post-cover img { display: block; width: 100%; height: auto; }
+.prose ol.steps-list { display: grid; gap: 10px; padding-left: 1.4em; list-style: decimal; }
+.prose ol.steps-list li::marker { color: var(--orange-ink); font-weight: 600; }
+.post-cta { margin-top: clamp(32px, 5vw, 48px) !important; padding: 22px; border-radius: 16px; background: var(--paper); border-left: 4px solid var(--orange); }
+.post-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin-top: 12px; }
+.post-cta .btn { color: var(--navy-deep); }
+@media (min-width: 720px) { .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .post-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } }
+
