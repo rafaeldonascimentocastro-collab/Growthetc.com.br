@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 680" role="img" aria-labelledby="t d">
+  <title id="t">Iceberg: as vendas são só a ponta; embaixo da água está o Sales Growth</title>
+  <desc id="d">Ilustração de um iceberg. A ponta, acima da linha d'água, representa as vendas que todos veem. A parte submersa, muito maior, representa o trabalho de Sales Growth.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EEF5F9"/>
+      <stop offset="1" stop-color="#C2DDE8"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2F7896"/>
+      <stop offset=".45" stop-color="#215873"/>
+      <stop offset="1" stop-color="#132631"/>
+    </linearGradient>
+    <linearGradient id="tipL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E3F0F6"/>
+    </linearGradient>
+    <linearGradient id="tipR" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C9DFEA"/>
+      <stop offset="1" stop-color="#9DC1D3"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8CC0D8" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#3D7F9E" stop-opacity=".55"/>
+    </linearGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- céu e mar -->
+  <rect width="600" height="240" fill="url(#sky)"/>
+  <rect y="240" width="600" height="440" fill="url(#sea)"/>
+
+  <!-- feixes de luz no mar -->
+  <polygon points="70,240 130,240 40,680 -40,680" fill="url(#ray)"/>
+  <polygon points="500,240 545,240 640,680 560,680" fill="url(#ray)"/>
+  <polygon points="380,240 410,240 470,680 420,680" fill="url(#ray)" opacity=".6"/>
+
+  <!-- parte submersa (grande) -->
+  <g>
+    <polygon points="150,240 452,240 515,330 470,452 360,600 288,648 196,560 100,420 92,320" fill="url(#body)"/>
+    <polygon points="150,240 300,240 246,350 168,430 100,420 92,320" fill="#A9D2E3" opacity=".55"/>
+    <polygon points="300,240 452,240 515,330 392,372 246,350" fill="#7DB4CD" opacity=".55"/>
+    <polygon points="246,350 392,372 470,452 360,600 288,520" fill="#4F8EAC" opacity=".55"/>
+    <polygon points="168,430 246,350 288,520 288,648 196,560" fill="#6AA6C2" opacity=".55"/>
+    <polygon points="392,372 515,330 470,452" fill="#3F7C9C" opacity=".6"/>
+    <polygon points="288,520 360,600 288,648" fill="#2E6685" opacity=".6"/>
+    <!-- arestas -->
+    <g fill="none" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.5">
+      <polyline points="300,240 246,350 288,520 288,648"/>
+      <polyline points="246,350 392,372 515,330"/>
+      <polyline points="168,430 246,350"/>
+      <polyline points="392,372 470,452"/>
+      <polyline points="288,520 360,600"/>
+    </g>
+  </g>
+
+  <!-- ponta (acima da água) -->
+  <g>
+    <polygon points="168,240 236,150 262,170 300,72 336,132 352,122 438,240" fill="url(#tipR)"/>
+    <polygon points="168,240 236,150 262,170 300,72 290,170 250,240" fill="url(#tipL)"/>
+    <polygon points="300,72 336,132 318,190 290,170" fill="#E6F1F6"/>
+    <polygon points="250,240 290,170 318,190 352,240" fill="#B7D4E2"/>
+    <polygon points="336,132 352,122 438,240 352,240 318,190" fill="#93BACD"/>
+    <!-- bandeira laranja no topo (crescimento) -->
+    <line x1="300" y1="72" x2="300" y2="30" stroke="#182933" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="300,30 334,40 300,52" fill="#DF5D2B"/>
+  </g>
+
+  <!-- linha d'água -->
+  <rect y="236" width="600" height="10" fill="url(#glow)" opacity=".7"/>
+  <path d="M0 240 C 40 234, 80 246, 120 240 S 200 234, 240 240 S 320 246, 360 240 S 440 234, 480 240 S 560 246, 600 240" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity=".9"/>
+
+  <!-- bolhas -->
+  <g fill="#FFFFFF" fill-opacity=".35">
+    <circle cx="540" cy="300" r="4"/><circle cx="552" cy="330" r="2.5"/><circle cx="530" cy="360" r="3"/>
+    <circle cx="60" cy="470" r="3.5"/><circle cx="74" cy="500" r="2"/><circle cx="52" cy="530" r="2.5"/>
+    <circle cx="430" cy="560" r="2.5"/><circle cx="446" cy="590" r="3.5"/>
+  </g>
+</svg>
