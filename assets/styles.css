@@ -105,45 +105,52 @@ h3 { font-size: 1.1875rem; font-weight: 500; letter-spacing: -.01em; line-height
 .hd { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
 .brand { display: flex; align-items: center; flex: none; min-height: 44px; }
 .brand img { width: 176px; height: auto; }
-.burger { width: 48px; height: 48px; margin-right: -10px; display: grid; place-items: center; background: none; border: 0; cursor: pointer; color: #fff; border-radius: 12px; }
-.burger svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; }
-.burger .i-close { display: none; }
-.burger[aria-expanded="true"] .i-open { display: none; }
-.burger[aria-expanded="true"] .i-close { display: block; }
-.nav {
-  display: none; position: fixed; z-index: 55; left: 0; right: 0; bottom: 0;
-  top: calc(65px + env(safe-area-inset-top, 0px));
-  flex-direction: column; gap: 0; overflow-y: auto; overscroll-behavior: contain;
-  background: var(--navy-deep); padding: 12px var(--gutter) calc(28px + env(safe-area-inset-bottom, 0px));
-}
-.nav.is-open { display: flex; }
-.nav a:not(.btn) { font: 300 1.75rem/1.1 var(--f-display); letter-spacing: -.01em; padding: 18px 0; border-bottom: 1px solid var(--line-lit); text-decoration: none; color: #fff; display: flex; align-items: center; justify-content: space-between; }
-.nav a:not(.btn)[aria-current="page"] { color: var(--orange-lit); }
-.nav .nav-cta { margin-top: 24px; }
-.nav .nav-wa { margin-top: 10px; }
+/* menu sempre visível (sem botão que esconde): abaixo de 1240 px as abas ficam numa segunda linha fixa do cabeçalho */
+.site-header .hd { flex-wrap: wrap; row-gap: 0; min-height: 0; padding-top: 8px; }
+.site-header .brand { min-height: 48px; }
+.nav { order: 3; flex-basis: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 4px; margin-inline: -6px; padding: 2px 0 8px; border-top: 1px solid var(--line-lit); }
+.nav a:not(.btn) { position: relative; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 6px 6px; font: 500 .8125rem/1.15 var(--f-body); text-align: center; text-decoration: none; color: rgba(255, 255, 255, .8); border-radius: 8px; }
+.nav a:not(.btn):hover { color: #fff; background: rgba(255, 255, 255, .05); }
+.nav a:not(.btn)[aria-current="page"] { color: #fff; }
+.nav a:not(.btn)[aria-current="page"]::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 3px; height: 2px; background: var(--orange); }
+/* destaque sutil: Cursos e Mentoria com um ponto laranja */
+.nav a.nav-hl::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex: none; }
+.nav .nav-cta, .nav .nav-wa { display: none; }
 .l-short { display: none; }
-/* celular deitado e tablet baixo: o menu aberto (6 abas + 2 botões) precisa caber na altura da tela */
-@media (max-width: 1239.98px) and (max-height: 760px) {
-  .nav a:not(.btn) { font-size: 1.5rem; padding-block: 13px; }
-  .nav .nav-cta { margin-top: 18px; }
+html { scroll-padding-top: 160px; }
+@media (min-width: 640px) {
+  /* linha 1: logo + botão; linha 2: as 6 abas */
+  .site-header .hd { align-items: center; justify-content: flex-start; column-gap: 0; }
+  .nav { display: contents; }
+  .nav .nav-cta { display: inline-flex; order: 1; margin-left: auto; white-space: nowrap; }
+  .site-header .hd::after { content: ""; order: 2; flex-basis: 100%; height: 1px; background: var(--line-lit); }
+  .nav a:not(.btn) { order: 3; font-size: .9375rem; padding: 10px 9px; min-height: 44px; white-space: nowrap; margin-block: 2px 4px; }
+  .nav a:not(.btn):first-child { margin-left: -9px; }
+  .l-full { display: none; } .l-short { display: inline; }
+  html { scroll-padding-top: 130px; }
 }
 @media (min-width: 960px) {
   .brand img { width: 196px; }
 }
-/* menu horizontal só a partir de 1240 px: com 6 abas e o botão, abaixo disso a barra não cabe e usa o menu hambúrguer */
 @media (min-width: 1240px) {
-  .burger { display: none; }
-  .nav { display: flex; position: static; flex-direction: row; align-items: center; gap: 2px; padding: 0; background: none; overflow: visible; }
-  .nav a:not(.btn) { font: 500 .9375rem/1 var(--f-body); letter-spacing: 0; padding: 12px 10px; min-height: 44px; border: 0; color: rgba(255, 255, 255, .78); position: relative; white-space: nowrap; }
-  .nav a:not(.btn):hover { color: #fff; }
-  .nav a:not(.btn)[aria-current="page"] { color: #fff; }
-  .nav a:not(.btn)[aria-current="page"]::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 4px; height: 2px; background: var(--orange); }
-  .nav .nav-cta { margin: 0 0 0 12px; white-space: nowrap; }
-  .nav .nav-wa { display: none; }
-  .l-full { display: none; }
-  .l-short { display: inline; }
+  .site-header .hd { flex-wrap: nowrap; justify-content: space-between; column-gap: 16px; min-height: 64px; padding-top: 0; }
+  .site-header .hd::after { display: none; }
+  .nav { display: flex; order: 0; flex-basis: auto; flex-wrap: nowrap; align-items: center; gap: 2px; margin: 0; padding: 0; border: 0; }
+  .nav a:not(.btn) { order: 0; padding: 12px 10px; margin: 0; }
+  .nav a:not(.btn):first-child { margin-left: 0; }
+  .nav .nav-cta { order: 0; }
+  .nav a:not(.btn)[aria-current="page"]::after { bottom: 4px; }
+  .nav .nav-cta { margin: 0 0 0 12px; }
+  html { scroll-padding-top: 84px; }
 }
 @media (min-width: 1320px) { .l-full { display: inline; } .l-short { display: none; } }
+
+/* Home: chamada sutil para o curso e a mentoria */
+.hero-also { grid-area: also; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 2px 0 0; font-size: .8125rem; }
+.hero-also-lbl { flex-basis: 100%; font: 600 .75rem/1.2 var(--f-body); letter-spacing: .12em; text-transform: uppercase; color: var(--mute-lit); }
+.hero-also a { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 999px; color: #fff; text-decoration: none; background: rgba(255, 255, 255, .03); transition: border-color .2s, background .2s; }
+.hero-also a:hover { border-color: var(--orange-lit); background: rgba(223, 93, 43, .1); }
+.hero-also .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange); flex: none; }
 
 /* ---------- cortes diagonais (assinatura) ---------- */
 .cut-b { position: relative; padding-bottom: calc(var(--cut) + var(--pb, 0px)); }
@@ -174,7 +181,7 @@ h3 { font-size: 1.1875rem; font-weight: 500; letter-spacing: -.01em; line-height
     linear-gradient(112deg, transparent 52%, rgba(255, 255, 255, .035) 52.1%, transparent 70%),
     radial-gradient(70% 90% at 100% 0%, rgba(223, 93, 43, .2), transparent 62%);
 }
-.hero-grid { position: relative; display: grid; gap: 14px 16px; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); grid-template-areas: "title media" "lead lead" "cta cta" "note note"; align-items: start; }
+.hero-grid { position: relative; display: grid; gap: 14px 16px; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); grid-template-areas: "title media" "lead lead" "cta cta" "note note" "also also"; align-items: start; }
 .hero-copy { display: contents; }
 .hero .eyebrow { display: none; }
 .hero-title { grid-area: title; font: 300 clamp(1.9rem, 8.6vw, 3.1rem)/1.05 var(--f-display); letter-spacing: -.03em; color: #fff; text-wrap: balance; }
