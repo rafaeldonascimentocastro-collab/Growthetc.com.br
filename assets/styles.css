@@ -996,3 +996,11 @@ a.ccard:hover { border-color: var(--ink); }
 @media (min-width: 720px) { .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .post-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; } }
 
+
+/* ---------- revisão de clareza ---------- */
+.proof-sub { margin-top: 6px; font-size: .8125rem; color: var(--mute); }
+.svc .ico { grid-row: span 4; }
+.svc .svc-fix { align-self: stretch; font-size: .875rem; color: var(--mute); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 6px; }
+@media (min-width: 640px) { .svc .svc-fix { margin-top: auto; } .svc .svc-fix + .link-arrow { margin-top: -6px; } }
+.svc .svc-fix b { color: var(--orange-ink); font-weight: 600; }
+.pillar-eb { margin-bottom: 4px; }
