@@ -221,7 +221,7 @@
   /* ---------- formulário rápido do Contato → WhatsApp (e cópia por e-mail para a Growth.Etc) ---------- */
   var form = d.getElementById('form-pre');
   if (form) {
-    var WA = form.getAttribute('data-wa') || '5511926375962';
+    var WA = form.getAttribute('data-wa') || '5511999022351';
     var EP = form.getAttribute('data-endpoint') || '';
     var sel = d.getElementById('f-desafio');
     var byHash = { 'frente-inovacao': 'Estratégia que nunca sai do papel', 'frente-branding': 'Marca que não atrai o cliente certo', 'frente-social': 'Anúncios sem retorno', 'frente-seo': 'Invisível no Google e nas IAs', 'frente-vendas': 'Time comercial sem processo' };
