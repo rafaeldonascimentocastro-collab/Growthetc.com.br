@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.growthetc.com.br/sitemap.xml
+Sitemap: https://growth.etc.br/sitemap.xml
