@@ -1,0 +1,22 @@
+# Grava o domínio personalizado (growth.etc.br) nas configurações do GitHub Pages.
+name: Configurar domínio do GitHub Pages
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths: ["CNAME", ".github/workflows/set-domain.yml"]
+permissions:
+  contents: read
+  pages: write
+jobs:
+  set-domain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Definir domínio a partir do arquivo CNAME
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DOMAIN=$(curl -fsSL "https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/CNAME" | tr -d '[:space:]')
+          echo "Domínio: $DOMAIN"
+          gh api -X PUT "repos/${GITHUB_REPOSITORY}/pages" -f cname="$DOMAIN" -f build_type=workflow
+          gh api "repos/${GITHUB_REPOSITORY}/pages" --jq '{cname: .cname, status: .status, https_enforced: .https_enforced, url: .html_url}'
