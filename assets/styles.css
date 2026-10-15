@@ -1008,3 +1008,50 @@ a.ccard:hover { border-color: var(--ink); }
 /* atalhos das frentes: fixos só quando o cabeçalho tem uma linha (>= 1240 px) */
 @media (min-width: 640px) { .pills a { min-height: 44px; padding: 0 16px; font-size: .9375rem !important; } }
 @media (min-width: 1240px) { .pills { position: sticky; top: calc(64px + env(safe-area-inset-top, 0px)); } }
+
+/* ---------- ajustes de 15/10/2026: palavra-chave no H1, contexto dos selos, rodapé com serviços,
+   produtos da Mentoria 4x4, preços de referência, autor do blog, página de obrigado e páginas de serviço ---------- */
+.hero-kw { display: block; font: 600 .8125rem/1.35 var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; text-wrap: balance; }
+.proof-note { margin: 14px auto 0; max-width: 56rem; font-size: .8125rem; line-height: 1.5; color: var(--mute); text-align: center; }
+.proof-note b { font-weight: 600; color: var(--ink); }
+.f-creds-note { margin-top: 10px; font-size: .8125rem; color: var(--mute-lit); max-width: 52rem; }
+@media (min-width: 960px) { .f-grid--4 { grid-template-columns: 1.25fr .9fr 1fr 1.15fr; } }
+.pcard .pcard-act { display: grid; gap: 8px; justify-items: start; margin-top: 6px; padding-top: 12px; border-top: 1px solid var(--line); }
+.pcard .pcard-act small { color: var(--mute); font-size: .8125rem; }
+.price-ref { display: grid; gap: 4px; margin-top: clamp(18px, 3vw, 28px); padding: 18px 20px; border-radius: 16px; background: var(--navy); color: #fff; }
+.price-ref b { font: 300 clamp(1.5rem, 4.6vw, 2rem)/1.1 var(--f-display); letter-spacing: -.02em; }
+.price-ref span { color: #D5DCE1; font-size: .9375rem; }
+.price-ref small { color: var(--mute-lit); font-size: .8125rem; }
+.pkg-price { font: 400 1.25rem/1.2 var(--f-display); color: var(--orange-ink); }
+.vs-col--hot .pkg-price { color: var(--orange); }
+.pkg-note { font-size: .8125rem; color: var(--mute); margin-top: 12px; }
+.author-box { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px; align-items: center; margin-top: clamp(28px, 5vw, 40px); padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
+.author-box img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+.author-box p { margin: 0; font-size: .9375rem; color: var(--mute); }
+.author-box b { color: var(--ink); }
+.author-box a { color: var(--orange-ink); }
+.thanks-steps { display: grid; gap: 12px; }
+.thanks-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; }
+.svc-intro { max-width: 46rem; }
+.svc-intro p + p { margin-top: 14px; }
+.svc-intro p { font-size: 1.0625rem; line-height: 1.65; color: #2B3A44; }
+.svc-list { display: grid; gap: 12px; }
+@media (min-width: 760px) { .svc-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; } }
+.svc-item { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; display: grid; gap: 6px; align-content: start; }
+.svc-item h3 { font: 400 1.1875rem/1.25 var(--f-display); }
+.svc-item p { color: var(--mute); font-size: .9375rem; line-height: 1.55; }
+.sig-list { display: grid; gap: 10px; max-width: 46rem; }
+.sig-list li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.sig-list li svg { width: 20px; height: 20px; margin-top: 2px; color: var(--orange-ink); }
+.case-callout { display: grid; gap: 10px; padding: clamp(20px, 3vw, 28px); border-radius: 18px; background: var(--navy); color: #fff; }
+.case-callout b.big { font: 300 clamp(2.4rem, 8vw, 3.4rem)/1 var(--f-display); letter-spacing: -.03em; color: var(--orange); }
+.case-callout p { color: #D5DCE1; max-width: 44rem; }
+.case-callout small { color: var(--mute-lit); font-size: .8125rem; }
+.rel-svc { display: flex; flex-wrap: wrap; gap: 10px; }
+.rel-svc a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); text-decoration: none; font-size: .9375rem; }
+.rel-svc a:hover { border-color: var(--ink); }
+.svc-page-link { margin-top: 10px; }
+@media (min-width: 960px) { .snap--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1200px) { .snap--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; } .snap--4 .case-body { padding-inline: 18px; } }
+@media (min-width: 960px) { .vs.vs--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.mcard .pkg-price { color: var(--orange-ink); font: 400 1.25rem/1.2 var(--f-display); }

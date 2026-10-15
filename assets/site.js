@@ -218,88 +218,148 @@
     });
   });
 
-  /* ---------- formulário rápido do Contato → WhatsApp (e cópia por e-mail para a Growth.Etc) ---------- */
-  var form = d.getElementById('form-pre');
-  if (form) {
-    var WA = form.getAttribute('data-wa') || '5511992253454';
-    var EP = form.getAttribute('data-endpoint') || '';
-    var sel = d.getElementById('f-desafio');
-    var byHash = { 'frente-inovacao': 'Estratégia que nunca sai do papel', 'frente-branding': 'Marca que não atrai o cliente certo', 'frente-social': 'Anúncios sem retorno', 'frente-seo': 'Invisível no Google e nas IAs', 'frente-vendas': 'Time comercial sem processo' };
-    var h = (location.hash || '').replace('#', '');
-    if (sel && byHash[h]) sel.value = byHash[h];
+  /* ---------- origem da visita: UTM do primeiro acesso da sessão ----------
+     Guarda os parâmetros utm_* da página de entrada para que o lead (e a mensagem do WhatsApp) leve a origem
+     mesmo quando a pessoa navega por outras páginas antes de converter. */
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  function store(k, v) { try { if (v === undefined) return JSON.parse(sessionStorage.getItem(k) || 'null'); sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } return v; }
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search), got = {}, any = false;
+      UTM_KEYS.forEach(function (k) { var v = p.get(k); if (v) { got[k] = v.slice(0, 80); any = true; } });
+      if (any && !store('ge_utm')) store('ge_utm', got);
+      if (!store('ge_landing')) store('ge_landing', { page: location.pathname.split('/').pop() || 'index.html', ref: (d.referrer || '').slice(0, 120) });
+    } catch (e) { /* segue */ }
+  })();
+  function originText(sep) {
+    var u = store('ge_utm') || {}, out = [];
+    UTM_KEYS.forEach(function (k) { if (u[k]) out.push(k.replace('utm_', '') + ': ' + u[k]); });
+    return out.join(sep || ' · ');
+  }
+  function pageName() { var pm = d.querySelector('[data-page]'); return (pm && pm.getAttribute('data-page')) || (location.pathname.split('/').pop() || 'index'); }
+  window.geOrigin = originText;
 
-    function fieldOf(el) { return el.closest('.field'); }
+  /* ---------- WhatsApp: a mensagem leva a origem da visita (campanha), se houver ---------- */
+  d.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="https://wa.me/"]') : null;
+    if (!a || a.hasAttribute('data-wa-done')) return;
+    var og = originText(' · ');
+    if (!og) return;
+    try {
+      var href = a.getAttribute('href'), m = /[?&]text=([^&]*)/.exec(href), t = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : '';
+      a.setAttribute('href', href.split('?')[0] + '?text=' + encodeURIComponent(t + '\n\n(Origem: ' + og + ')'));
+      a.setAttribute('data-wa-done', '');
+    } catch (err) { /* segue com o link original */ }
+  }, true);
+
+  /* ---------- formulários de lead (Contato, Pré-diagnóstico e Portfólio) ----------
+     Envio para o endpoint configurado em assets/config.js → página obrigado.html (onde o evento generate_lead é disparado).
+     Se o envio falhar, o painel de reserva oferece o WhatsApp e o e-mail já preenchidos, para o lead não se perder. */
+  var CFG = window.GE_CONFIG || {};
+  var WA_NUM = String(CFG.whatsapp || '5511992253454');
+  var LEAD_MAIL = String(CFG.leadEmail || 'growthetc@gmail.com');
+  function phoneMask(v) {
+    var s = (v || '').replace(/\D/g, '').slice(0, 11);
+    if (!s.length) return '';
+    if (s.length <= 2) return '(' + s;
+    var cut = s.length > 10 ? 7 : 6, b = s.slice(cut);
+    return '(' + s.slice(0, 2) + ') ' + s.slice(2, cut) + (b ? '-' + b : '');
+  }
+  function postLead(ep, data) {
+    if (!ep || !window.fetch) return Promise.resolve(false);
+    var ctrl = typeof AbortController === 'function' ? new AbortController() : null, timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 15000);
+    return fetch(ep, { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data), keepalive: true, signal: ctrl ? ctrl.signal : undefined }).then(function (r) {
+      clearTimeout(timer);
+      return r.json().then(function (j) { return r.ok && j && (j.success === true || j.success === 'true'); }, function () { return false; });
+    }, function () { clearTimeout(timer); return false; });
+  }
+  var FRENTE_DESAFIO = { 'frente-inovacao': 'Estratégia que nunca sai do papel', 'frente-branding': 'Marca que não atrai o cliente certo', 'frente-social': 'Anúncios sem retorno', 'frente-seo': 'Invisível no Google e nas IAs', 'frente-vendas': 'Time comercial sem processo' };
+  [].slice.call(d.querySelectorAll('form[data-lead]')).forEach(function (form) {
+    var tipo = form.getAttribute('data-lead');
+    var EP = form.getAttribute('data-endpoint') || CFG.leadEndpoint || '';
+    var btn = form.querySelector('button[type=submit]');
+    var fb = d.getElementById(form.getAttribute('data-fallback') || 'form-ok');
+    var f = function (n) { return form.elements.namedItem(n); };
+    var val = function (n) { var el = f(n); return el ? (el.value || '').trim() : ''; };
+    var h = (location.hash || '').replace('#', ''), sel = f('desafio');
+    if (sel && FRENTE_DESAFIO[h]) {
+      sel.value = FRENTE_DESAFIO[h];
+      requestAnimationFrame(function () { var box = form.closest('[id]') || form; box.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); });
+    }
+    function boxOf(el) { return el.closest('.field'); }
     function setErr(el, bad) {
-      var f = fieldOf(el); if (!f) return;
-      if (bad) { f.setAttribute('data-invalid', ''); el.setAttribute('aria-invalid', 'true'); } else { f.removeAttribute('data-invalid'); el.removeAttribute('aria-invalid'); }
+      var b = boxOf(el); if (!b) return;
+      if (bad) { b.setAttribute('data-invalid', ''); el.setAttribute('aria-invalid', 'true'); } else { b.removeAttribute('data-invalid'); el.removeAttribute('aria-invalid'); }
     }
     function valid(el) {
       var v = (el.value || '').trim();
-      if (el.id === 'f-email') return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-      if (el.id === 'f-fone') return v.replace(/\D/g, '').length >= 10;
-      return v.length > 0;
+      if (!v) return !el.required;
+      if (el.type === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+      if (el.type === 'tel') return v.replace(/\D/g, '').length >= 10;
+      return true;
     }
-    function phoneMask(v) {
-      var s = (v || '').replace(/\D/g, '').slice(0, 11);
-      if (!s.length) return '';
-      if (s.length <= 2) return '(' + s;
-      var cut = s.length > 10 ? 7 : 6, b = s.slice(cut);
-      return '(' + s.slice(0, 2) + ') ' + s.slice(2, cut) + (b ? '-' + b : '');
-    }
-    [].slice.call(form.querySelectorAll('input,select')).forEach(function (el) {
+    [].slice.call(form.querySelectorAll('input:not([type=hidden]),select,textarea')).forEach(function (el) {
       el.addEventListener('blur', function () { if (el.value) setErr(el, !valid(el)); });
       el.addEventListener('input', function () {
-        if (el.id === 'f-fone' && !/^\s*\+/.test(el.value) && (el.selectionStart === null || el.selectionStart >= el.value.length)) el.value = phoneMask(el.value);
-        if (fieldOf(el) && fieldOf(el).hasAttribute('data-invalid') && valid(el)) setErr(el, false);
+        if (el.type === 'tel' && !/^\s*\+/.test(el.value) && (el.selectionStart === null || el.selectionStart >= el.value.length)) el.value = phoneMask(el.value);
+        if (boxOf(el) && boxOf(el).hasAttribute('data-invalid') && valid(el)) setErr(el, false);
       });
     });
-
-    function origin() {
-      try {
-        var p = new URLSearchParams(location.search), out = [];
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) { var v = p.get(k); if (v) out.push(k.replace('utm_', '') + ': ' + v); });
-        return out.join(' · ');
-      } catch (e) { return ''; }
-    }
-    // cópia por e-mail (FormSubmit): em segundo plano; o WhatsApp continua sendo o canal principal
-    function sendCopy(data) {
-      if (!EP || !window.fetch) return Promise.resolve(false);
-      var ctrl = typeof AbortController === 'function' ? new AbortController() : null, timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 20000);
-      return fetch(EP, { method: 'POST', headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }, body: JSON.stringify(data), keepalive: true, signal: ctrl ? ctrl.signal : undefined }).then(function (r) {
-        clearTimeout(timer);
-        return r.json().then(function (j) { return r.ok && j && (j.success === true || j.success === 'true'); }, function () { return false; });
-      }, function () { clearTimeout(timer); return false; });
-    }
-
+    var started = false;
+    form.addEventListener('focusin', function () { if (!started) { started = true; track('form_start', { form: tipo }); } });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var hp = form.elements.namedItem('_honey');
       var bad = null;
-      [].slice.call(form.querySelectorAll('[required]')).forEach(function (el) {
+      [].slice.call(form.querySelectorAll('input:not([type=hidden]):not(.hp),select,textarea')).forEach(function (el) {
         var ok = valid(el); setErr(el, !ok); if (!ok && !bad) bad = el;
       });
-      if (bad) { bad.focus(); return; }
-      var g = function (id) { return (d.getElementById(id).value || '').trim(); };
-      var text = 'Olá! Quero solicitar uma conversa de 20 minutos com a Growth.Etc (pré-diagnóstico gratuito).\n\n' +
-        'Nome: ' + g('f-nome') + '\nEmpresa: ' + g('f-empresa') + '\nE-mail: ' + g('f-email') + '\nWhatsApp: ' + g('f-fone') +
-        '\nMaior desafio hoje: ' + g('f-desafio');
-      var url = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text);
-      track('form_submit', { form: 'contato_rapido', desafio: g('f-desafio') });
-      var ok = d.getElementById('form-ok'), link = d.getElementById('form-ok-link'), mailSt = d.getElementById('form-mail');
-      if (link) link.setAttribute('href', url);
-      form.hidden = true;
-      if (ok) { ok.classList.add('is-on'); ok.setAttribute('tabindex', '-1'); ok.focus({ preventScroll: false }); }
-      try { var w = window.open(url, '_blank', 'noopener'); if (w) w.opener = null; } catch (err) { /* o link do painel cobre este caso */ }
-      if (hp && hp.value) return;                       // robô: não envia a cópia
-      if (mailSt) mailSt.textContent = 'Enviando uma cópia por e-mail para a Growth.Etc…';
-      var data = { _subject: 'Novo contato rápido do site: ' + g('f-empresa'), _template: 'table', _captcha: 'false',
-        'Nome': g('f-nome'), 'Empresa': g('f-empresa'), 'email': g('f-email'), 'WhatsApp': g('f-fone'), 'Maior desafio hoje': g('f-desafio') };
+      if (bad) { bad.focus(); track('form_error', { form: tipo }); return; }
+      var lead = { tipo: tipo, nome: val('nome'), email: val('email'), fone: val('telefone'), desafio: val('desafio'), empresa: val('empresa'), t: Date.now() };
+      var hp = f('_honey');
+      if (hp && hp.value) { location.href = 'obrigado.html?tipo=' + encodeURIComponent(tipo); return; }   // robô: não envia
+      var label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); btn.textContent = 'Enviando…'; }
+      var titles = { contato: 'Pedido de conversa', pre_diagnostico: 'Pedido de pré-diagnóstico', portfolio: 'Pedido do Portfólio' };
+      var data = { _subject: (titles[tipo] || 'Novo lead') + ' (site): ' + (lead.empresa || lead.nome), _template: 'table', _captcha: 'false',
+        'Tipo de lead': titles[tipo] || tipo, 'Nome': lead.nome, 'email': lead.email };
+      if (lead.fone) data['WhatsApp'] = lead.fone;
+      if (lead.empresa) data['Empresa'] = lead.empresa;
+      if (lead.desafio) data['Maior desafio hoje'] = lead.desafio;
       if (/^https?:/.test(location.protocol)) data['Página'] = location.origin + location.pathname;
-      var og = origin(); if (og) data['Origem da visita'] = og;
-      sendCopy(data).then(function (okMail) {
-        if (mailSt) mailSt.textContent = okMail ? 'Também enviamos uma cópia por e-mail para a Growth.Etc.' : 'A cópia por e-mail não seguiu agora. O WhatsApp é o canal principal: envie a mensagem por lá.';
-        track(okMail ? 'email_copy' : 'form_submit_fail', { form: 'contato_rapido', state: okMail ? 'ok' : 'fail' });
+      var og = originText(' · '); if (og) data['Origem da visita'] = og;
+      var land = store('ge_landing'); if (land && land.page) data['Página de entrada'] = land.page + (land.ref ? ' (vindo de ' + land.ref + ')' : '');
+      postLead(EP, data).then(function (ok) {
+        if (ok) {
+          store('ge_lead', lead);
+          track('form_submit', { form: tipo, desafio: lead.desafio || '' });
+          location.href = 'obrigado.html?tipo=' + encodeURIComponent(tipo);
+          return;
+        }
+        track('form_submit_fail', { form: tipo });
+        if (btn) { btn.disabled = false; btn.removeAttribute('aria-busy'); btn.textContent = label; }
+        var text = 'Olá! Tentei enviar o formulário do site da Growth.Etc, mas não foi. Seguem os meus dados:\n\n' +
+          'Nome: ' + lead.nome + (lead.empresa ? '\nEmpresa: ' + lead.empresa : '') + '\nE-mail: ' + lead.email +
+          (lead.fone ? '\nWhatsApp: ' + lead.fone : '') + (lead.desafio ? '\nMaior desafio hoje: ' + lead.desafio : '') + '\nPedido: ' + (titles[tipo] || tipo);
+        var wa = d.getElementById('form-ok-link'), ml = d.getElementById('form-ok-mail');
+        if (wa) wa.setAttribute('href', 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(text));
+        if (ml) ml.setAttribute('href', 'mailto:' + LEAD_MAIL + '?subject=' + encodeURIComponent(titles[tipo] || 'Contato pelo site') + '&body=' + encodeURIComponent(text));
+        if (fb) { fb.classList.add('is-on'); fb.setAttribute('tabindex', '-1'); try { fb.focus({ preventScroll: false }); } catch (err) { fb.focus(); } }
       });
     });
+  });
+
+  /* ---------- página de obrigado: personaliza e dispara a conversão (uma vez por lead) ---------- */
+  if (pageName() === 'obrigado') {
+    var q = new URLSearchParams(location.search), tp = q.get('tipo') || 'contato', lead = store('ge_lead') || {};
+    [].slice.call(d.querySelectorAll('[data-tipo]')).forEach(function (el) { el.hidden = (' ' + el.getAttribute('data-tipo') + ' ').indexOf(' ' + tp + ' ') < 0; });
+    var first = (lead.nome || '').split(' ')[0];
+    [].slice.call(d.querySelectorAll('[data-fill="nome"]')).forEach(function (n) { n.textContent = first ? ', ' + first : ''; });
+    var msg = 'Olá! Acabei de enviar ' + ({ contato: 'o pedido de conversa', pre_diagnostico: 'o pedido de pré-diagnóstico', briefing: 'o briefing do pré-diagnóstico', portfolio: 'o pedido do Portfólio' }[tp] || 'o formulário') +
+      ' pelo site da Growth.Etc.' + (lead.nome ? '\n\nNome: ' + lead.nome : '') + (lead.empresa ? '\nEmpresa: ' + lead.empresa : '') + (lead.desafio ? '\nMaior desafio hoje: ' + lead.desafio : '');
+    [].slice.call(d.querySelectorAll('[data-wa-thanks]')).forEach(function (a) { a.setAttribute('href', 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(msg)); });
+    if (lead.t && store('ge_lead_sent') !== lead.t) {
+      store('ge_lead_sent', lead.t);
+      track('generate_lead', { form: lead.tipo || tp, lead_type: tp, desafio: lead.desafio || '', origem: originText(' · ') || 'direto' });
+    }
   }
 })();

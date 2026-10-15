@@ -1,5 +1,6 @@
-/* Growth.Etc — briefing do pré-diagnóstico: formulário em 5 etapas, validação e envio
-   (WhatsApp com todas as respostas + PDF para anexar/baixar + cópia por e-mail com o PDF) */
+/* Growth.Etc — briefing completo do pré-diagnóstico (opcional): formulário em 5 etapas, validação e envio.
+   Envio principal: endpoint de leads (e-mail com o PDF em anexo) → página obrigado.html.
+   Se o envio falhar, o painel de reserva oferece o WhatsApp com as respostas, o PDF e o e-mail. */
 (function () {
   'use strict';
   var d = document;
@@ -184,7 +185,7 @@
     li.addEventListener('click', function () { if (i < cur) show(i, true); });
   });
 
-  form.addEventListener('focusin', function () { if (!started) { started = true; track('form_start', { form: 'pre_diagnostico' }); loadPdf(); } });
+  form.addEventListener('focusin', function () { if (!started) { started = true; track('form_start', { form: 'briefing' }); loadPdf(); } });
 
   /* ---------- coleta das respostas (nome do campo = rótulo no e-mail; [nome, resposta, pergunta, opcional]) ---------- */
   function questionOf(el, fallback) {
@@ -248,14 +249,15 @@
     var inp = form.elements.namedItem('Frente de interesse'), chip = d.getElementById('wiz-chip');
     if (f && inp) {
       inp.value = f; if (chip) { chip.textContent = 'Interesse: ' + f; chip.hidden = false; }
-      // a pessoa chegou por um botão "Quero esta frente…": leva direto ao briefing (o hash #frente-… não é um id da página, então o navegador não rola sozinho)
-      var touched = false, mark = function () { touched = true; };
-      ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) { window.addEventListener(ev, mark, { once: true, passive: true }); });
-      var land = function (smooth) { if (wiz) wiz.scrollIntoView({ behavior: smooth && !reduce ? 'smooth' : 'auto', block: 'start' }); };
-      requestAnimationFrame(function () { land(true); });
-      // depois que imagens e fontes terminam de carregar, realinha uma vez (se a pessoa ainda não mexeu na página)
-      window.addEventListener('load', function () { if (touched || !wiz) return; var t = wiz.getBoundingClientRect().top; if (t < 0 || t > 160) land(false); });
     }
+  })();
+
+  /* ---------- quem já pediu o pré-diagnóstico no formulário curto chega com nome, e-mail e WhatsApp preenchidos ---------- */
+  function sget(k) { try { return JSON.parse(sessionStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+  function sset(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* segue */ } }
+  (function () {
+    var lead = sget('ge_lead') || {}, map = { Nome: lead.nome, email: lead.email, WhatsApp: lead.fone, 'Nome fantasia': lead.empresa };
+    Object.keys(map).forEach(function (n) { var el = form.elements.namedItem(n); if (el && map[n] && !el.value) el.value = map[n]; });
   })();
 
   /* ---------- WhatsApp: mensagem com todas as respostas ---------- */
@@ -452,8 +454,8 @@
   var MAIL_TXT = {
     wait: 'Enviando uma cópia com o PDF para ' + MAIL + '…',
     ok: 'Cópia enviada por e-mail para ' + MAIL + ', com o PDF em anexo.',
-    'ok-nopdf': 'Cópia das respostas enviada por e-mail para ' + MAIL + '. O PDF não seguiu junto: use o WhatsApp.',
-    fail: 'Não foi possível enviar o e-mail automaticamente. O WhatsApp continua valendo; se quiser, envie também por e-mail.'
+    'ok-nopdf': 'Respostas enviadas por e-mail para ' + MAIL + '.',
+    fail: 'O envio automático não funcionou agora. Para não perder as respostas, envie pelo WhatsApp ou por e-mail, ou tente de novo.'
   };
   function setMail(state) {
     var dot = d.getElementById('wiz-mail-dot'), st = d.getElementById('wiz-mail-status'), acts = d.getElementById('wiz-mail-actions');
@@ -466,9 +468,16 @@
     setMail('wait');
     var g = result.g, pdf = result.pdf;
     sendMail(g, pdf).then(function (r) {
+      if (r.state !== 'fail') { goThanks(g, r.state); return; }
       setMail(r.state);
-      track(r.state === 'fail' ? 'form_submit_fail' : 'email_copy', { form: 'pre_diagnostico', state: r.state });
+      track('form_submit_fail', { form: 'briefing', state: r.state });
     });
+  }
+  function goThanks(g, state) {
+    var o = flat(g), pick = function (k) { return o[k] && o[k] !== '—' ? o[k] : ''; };
+    sset('ge_lead', { tipo: 'briefing', nome: pick('Nome'), email: pick('email'), fone: pick('WhatsApp'), empresa: companyOf(o), desafio: cut(pick('Principal dor'), 120), t: Date.now() });
+    track('form_submit', { form: 'briefing', atuacao: o['Atuação'] || '', frente: o['Frente de interesse'] || '', pdf: result && result.pdf ? result.pdf.pages : 0, state: state });
+    location.href = 'obrigado.html?tipo=briefing';
   }
   function renderDone(g, pdf, wa, opened) {
     var o = flat(g), text = summaryText(g);
@@ -496,8 +505,7 @@
         : 'Você está vendo a pré-visualização da página. Aqui a cópia por e-mail e o download do PDF ficam bloqueados pela própria pré-visualização.';
     }
     var nt = d.getElementById('wiz-wa-hint'); if (nt) nt.textContent = opened ? 'Abrimos o WhatsApp para você. Se ele não apareceu, toque no botão.' : 'Toque no botão para abrir o WhatsApp.';
-    if (opened) track('whatsapp_open', { form: 'pre_diagnostico', texto: wa.level });
-    track('form_submit', { form: 'pre_diagnostico', atuacao: o['Atuação'] || '', frente: o['Frente de interesse'] || '', pdf: pdf ? pdf.pages : 0, texto: wa.level });
+    if (opened) track('whatsapp_open', { form: 'briefing', texto: wa.level });
     side.forEach(function (li) { li.classList.add('is-done'); li.classList.remove('is-current'); li.removeAttribute('aria-current'); });
     swapTo(done);
   }
@@ -523,12 +531,15 @@
     try { pdf = makePdf(g); } catch (e) { pdf = null; }
     var wa = waLink(g, !!pdf);
     result = { g: g, pdf: pdf, wa: wa };
-    // tudo acontece dentro do mesmo toque (senão o navegador bloqueia a janela do WhatsApp):
-    // 1) a cópia por e-mail sai em segundo plano, 2) o WhatsApp abre com as respostas, 3) o painel mostra o PDF e o estado de cada envio
-    runMail();
-    var opened = openWhatsApp(wa.href);
-    renderDone(g, pdf, wa, opened);
-    setBusy(false);
+    // envio principal: endpoint (e-mail com o PDF) → obrigado.html. Só se falhar o painel de reserva aparece, com WhatsApp, PDF e e-mail.
+    btnSend.textContent = 'Enviando o briefing…';
+    sendMail(g, pdf).then(function (r) {
+      if (r.state !== 'fail') { goThanks(g, r.state); return; }
+      track('form_submit_fail', { form: 'briefing', state: r.state });
+      setBusy(false);
+      renderDone(g, pdf, wa, false);
+      setMail('fail');
+    });
   }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
