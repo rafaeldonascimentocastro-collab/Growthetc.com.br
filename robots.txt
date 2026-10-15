@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /arquivos/
-Sitemap: https://www.growth.etc.br/sitemap.xml
+Sitemap: https://growth.etc.br/sitemap.xml
