@@ -319,7 +319,7 @@
       if (hp && hp.value) { location.href = 'obrigado.html?tipo=' + encodeURIComponent(tipo); return; }   // robô: não envia
       var label = btn ? btn.textContent : '';
       if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); btn.textContent = 'Enviando…'; }
-      var titles = { contato: 'Pedido de conversa', pre_diagnostico: 'Pedido de pré-diagnóstico', portfolio: 'Pedido do Portfólio' };
+      var titles = { contato: 'Pedido de conversa', pre_diagnostico: 'Pedido de pré-diagnóstico', portfolio: 'Pedido do Portfólio', newsletter: 'Inscrição no blog' };
       var data = { _subject: (titles[tipo] || 'Novo lead') + ' (site): ' + (lead.empresa || lead.nome), _template: 'table', _captcha: 'false',
         'Tipo de lead': titles[tipo] || tipo, 'Nome': lead.nome, 'email': lead.email };
       if (lead.fone) data['WhatsApp'] = lead.fone;
@@ -348,18 +348,34 @@
     });
   });
 
+  /* ---------- blog: filtro de artigos por tema ---------- */
+  var fbtns = [].slice.call(d.querySelectorAll('.blog-filter [data-filter]'));
+  if (fbtns.length) {
+    var list = d.getElementById('lista-artigos'), feat = d.querySelector('.post-feature');
+    var applyFilter = function (cat) {
+      fbtns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-filter') === cat ? 'true' : 'false'); });
+      var all = cat === '*';
+      if (list) list.classList.toggle('is-filtered', !all);
+      if (feat) feat.hidden = !all;
+      [].slice.call(list ? list.querySelectorAll('.post-card') : []).forEach(function (c) { c.hidden = !all && c.getAttribute('data-cat') !== cat; });
+      track('blog_filter', { tema: all ? 'todos' : cat });
+    };
+    fbtns.forEach(function (b) { b.addEventListener('click', function () { applyFilter(b.getAttribute('data-filter')); }); });
+  }
+
   /* ---------- página de obrigado: personaliza e dispara a conversão (uma vez por lead) ---------- */
   if (pageName() === 'obrigado') {
     var q = new URLSearchParams(location.search), tp = q.get('tipo') || 'contato', lead = store('ge_lead') || {};
     [].slice.call(d.querySelectorAll('[data-tipo]')).forEach(function (el) { el.hidden = (' ' + el.getAttribute('data-tipo') + ' ').indexOf(' ' + tp + ' ') < 0; });
     var first = (lead.nome || '').split(' ')[0];
     [].slice.call(d.querySelectorAll('[data-fill="nome"]')).forEach(function (n) { n.textContent = first ? ', ' + first : ''; });
-    var msg = 'Olá! Acabei de enviar ' + ({ contato: 'o pedido de conversa', pre_diagnostico: 'o pedido de pré-diagnóstico', briefing: 'o briefing do pré-diagnóstico', portfolio: 'o pedido do Portfólio' }[tp] || 'o formulário') +
+    var msg = 'Olá! Acabei de enviar ' + ({ contato: 'o pedido de conversa', pre_diagnostico: 'o pedido de pré-diagnóstico', briefing: 'o briefing do pré-diagnóstico', portfolio: 'o pedido do Portfólio', newsletter: 'a inscrição no blog' }[tp] || 'o formulário') +
       ' pelo site da Growth.Etc.' + (lead.nome ? '\n\nNome: ' + lead.nome : '') + (lead.empresa ? '\nEmpresa: ' + lead.empresa : '') + (lead.desafio ? '\nMaior desafio hoje: ' + lead.desafio : '');
     [].slice.call(d.querySelectorAll('[data-wa-thanks]')).forEach(function (a) { a.setAttribute('href', 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(msg)); });
     if (lead.t && store('ge_lead_sent') !== lead.t) {
       store('ge_lead_sent', lead.t);
-      track('generate_lead', { form: lead.tipo || tp, lead_type: tp, desafio: lead.desafio || '', origem: originText(' · ') || 'direto' });
+      if (tp === 'newsletter') track('sign_up', { method: 'newsletter_blog', origem: originText(' · ') || 'direto' });
+      else track('generate_lead', { form: lead.tipo || tp, lead_type: tp, desafio: lead.desafio || '', origem: originText(' · ') || 'direto' });
     }
   }
 })();
