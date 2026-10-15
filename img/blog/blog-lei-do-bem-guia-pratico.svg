@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+<defs><radialGradient id="g" cx="1" cy="0" r="1"><stop offset="0" stop-color="#DF5D2B" stop-opacity=".32"/><stop offset=".6" stop-color="#DF5D2B" stop-opacity="0"/></radialGradient>
+<pattern id="d" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6" fill="#FFFFFF" fill-opacity=".08"/></pattern></defs>
+<rect width="1200" height="630" fill="#182933"/><rect width="1200" height="630" fill="url(#d)"/><rect width="1200" height="630" fill="url(#g)"/>
+<polygon points="0,630 520,630 380,0 0,0" fill="#0F1A21" fill-opacity=".55"/>
+<rect x="80" y="96" width="120" height="10" rx="5" fill="#DF5D2B"/>
+<rect x="80" y="140" width="300" height="22" rx="11" fill="#FFFFFF" fill-opacity=".14"/><rect x="80" y="180" width="240" height="22" rx="11" fill="#FFFFFF" fill-opacity=".09"/>
+<circle cx="880" cy="250" r="120" fill="#FFFFFF" fill-opacity=".24"/>
+<path d="M820 340 Q 820 300 790 280 L970 280 Q 940 300 940 340 Z" fill="#FFFFFF" fill-opacity=".24"/>
+<rect x="830" y="350" width="100" height="22" rx="8" fill="#DF5D2B"/><rect x="838" y="380" width="84" height="22" rx="8" fill="#DF5D2B"/><rect x="850" y="410" width="60" height="18" rx="8" fill="#DF5D2B" fill-opacity=".7"/>
+<path d="M880 70 V100 M740 130 L762 152 M1020 130 L998 152 M690 250 H720 M1040 250 H1070" stroke="#DF5D2B" stroke-width="10" stroke-linecap="round"/>
+<circle cx="1070" cy="470" r="52" fill="#DF5D2B"/><text x="1070" y="490" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" fill="#182933">%</text>
+</svg>
