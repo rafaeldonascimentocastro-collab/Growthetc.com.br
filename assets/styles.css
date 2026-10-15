@@ -1055,3 +1055,21 @@ a.ccard:hover { border-color: var(--ink); }
 @media (min-width: 1200px) { .snap--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; } .snap--4 .case-body { padding-inline: 18px; } }
 @media (min-width: 960px) { .vs.vs--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .mcard .pkg-price { color: var(--orange-ink); font: 400 1.25rem/1.2 var(--f-display); }
+/* ---------- imagens dos serviços, produtos e mentorias (maquetes 3D no lugar dos ícones) ---------- */
+.card-img { display: block; max-width: none; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: #E2DDD6; }
+.svc.svc--img { display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+.svc--img .card-img { width: calc(100% + 36px); margin: -18px -18px 6px; border-bottom: 1px solid var(--line); }
+.svc--img h3 { align-self: stretch; }
+@media (min-width: 640px) { .svc--img .card-img { width: calc(100% + 48px); margin: -24px -24px 6px; } }
+.mcard--img { overflow: hidden; }
+.mcard--img .card-img { width: calc(100% + 48px); margin: -24px -24px 2px; border-bottom: 1px solid var(--line); }
+@media (min-width: 640px) { .mcard--img .card-img { width: calc(100% + 60px); margin: -30px -30px 2px; } }
+.pcard--img { overflow: hidden; }
+.pcard--img .card-img { width: calc(100% + 40px); margin: -20px -20px 4px; border-bottom: 1px solid var(--line); }
+@media (min-width: 1000px) { .pcard--img .card-img { width: calc(100% + 44px); margin: -22px -22px 4px; } }
+.pillar-img { width: 100%; max-width: 460px; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 16px; background: #E2DDD6; }
+.svc-intro-grid { display: grid; gap: 28px; align-items: start; }
+.svc-intro-grid .svc-fig img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 18px; background: #E2DDD6; }
+@media (min-width: 960px) { .svc-intro-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 48px; } .svc-intro-grid .svc-fig { position: sticky; top: 120px; } }
+.su-fig { margin-top: clamp(20px, 3vw, 28px); max-width: 640px; }
+.su-fig img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 18px; background: #E2DDD6; }
