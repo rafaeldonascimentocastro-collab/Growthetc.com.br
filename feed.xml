@@ -2,71 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <title>Blog da Growth.Etc</title>
-  <link>https://growth.etc.br/blog.html</link>
-  <atom:link href="https://growth.etc.br/feed.xml" rel="self" type="application/rss+xml"/>
+  <link>https://www.growthetc.com.br/blog.html</link>
+  <atom:link href="https://www.growthetc.com.br/feed.xml" rel="self" type="application/rss+xml"/>
   <description>Vendas, marca, inovação e IA na prática, para pequenas e médias empresas.</description>
   <language>pt-BR</language>
   <lastBuildDate>Thu, 15 Oct 2026 09:00:00 +0000</lastBuildDate>
   <item>
     <title>Consultoria de vendas para PME: quando contratar e o que esperar</title>
-    <link>https://growth.etc.br/blog-consultoria-de-vendas-para-pme.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-consultoria-de-vendas-para-pme.html</guid>
+    <link>https://www.growthetc.com.br/blog-consultoria-de-vendas-para-pme.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-consultoria-de-vendas-para-pme.html</guid>
     <pubDate>Thu, 15 Oct 2026 09:00:00 +0000</pubDate>
     <category>Vendas e CRM</category>
     <description>Veja o que uma consultoria de vendas faz, os sinais de que chegou a hora de contratar, como funciona um projeto e como escolher a consultoria certa para a sua PME.</description>
   </item>
   <item>
     <title>CRM para pequenas empresas: como escolher e implantar sem desperdício</title>
-    <link>https://growth.etc.br/blog-crm-para-pequenas-empresas.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-crm-para-pequenas-empresas.html</guid>
+    <link>https://www.growthetc.com.br/blog-crm-para-pequenas-empresas.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-crm-para-pequenas-empresas.html</guid>
     <pubDate>Thu, 15 Oct 2026 09:00:00 +0000</pubDate>
     <category>Vendas e CRM</category>
     <description>Guia prático de CRM para pequenas empresas: por que a planilha não basta, os critérios para escolher a ferramenta, a implantação em 5 passos e os erros que fazem o time abandonar o CRM.</description>
   </item>
   <item>
     <title>Lei do Bem: guia prático para usar os incentivos fiscais à inovação</title>
-    <link>https://growth.etc.br/blog-lei-do-bem-guia-pratico.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-lei-do-bem-guia-pratico.html</guid>
+    <link>https://www.growthetc.com.br/blog-lei-do-bem-guia-pratico.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-lei-do-bem-guia-pratico.html</guid>
     <pubDate>Thu, 15 Oct 2026 09:00:00 +0000</pubDate>
     <category>Inovação</category>
     <description>Entenda a Lei do Bem: quem pode usar, quais são os incentivos fiscais para pesquisa e inovação, o que conta como P&amp;D, como organizar a documentação e prestar contas ao MCTI.</description>
   </item>
   <item>
     <title>Como aparecer no ChatGPT e no Gemini: o que é GEO</title>
-    <link>https://growth.etc.br/blog-como-aparecer-no-chatgpt-geo.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-como-aparecer-no-chatgpt-geo.html</guid>
+    <link>https://www.growthetc.com.br/blog-como-aparecer-no-chatgpt-geo.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-como-aparecer-no-chatgpt-geo.html</guid>
     <pubDate>Sat, 10 Oct 2026 09:00:00 +0000</pubDate>
     <category>SEO e IA</category>
     <description>O que é GEO (Generative Engine Optimization), a diferença para o SEO e um checklist prático para a sua empresa ser citada pelo ChatGPT e pelo Gemini.</description>
   </item>
   <item>
     <title>Funil de vendas: o que é e como montar o seu, passo a passo</title>
-    <link>https://growth.etc.br/blog-funil-de-vendas.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-funil-de-vendas.html</guid>
+    <link>https://www.growthetc.com.br/blog-funil-de-vendas.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-funil-de-vendas.html</guid>
     <pubDate>Sat, 10 Oct 2026 09:00:00 +0000</pubDate>
     <category>Vendas e CRM</category>
     <description>Entenda o que é funil de vendas, quais são as etapas, as métricas que importam e como montar o funil da sua empresa em 6 passos, com exemplo prático.</description>
   </item>
   <item>
     <title>Não é o que você vende, mas como você vende</title>
-    <link>https://growth.etc.br/blog-nao-e-o-que-voce-vende.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-nao-e-o-que-voce-vende.html</guid>
+    <link>https://www.growthetc.com.br/blog-nao-e-o-que-voce-vende.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-nao-e-o-que-voce-vende.html</guid>
     <pubDate>Mon, 13 Apr 2026 09:00:00 +0000</pubDate>
     <category>Vendas e Growth</category>
     <description>Para destravar as vendas, olhe para o comprador: onde ele circula, como conhece, experimenta e compra. Veja como novos canais B2B e B2C sustentam crescimento real.</description>
   </item>
   <item>
     <title>Pior que não vender é vender errado</title>
-    <link>https://growth.etc.br/blog-pior-que-nao-vender-e-vender-errado.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-pior-que-nao-vender-e-vender-errado.html</guid>
+    <link>https://www.growthetc.com.br/blog-pior-que-nao-vender-e-vender-errado.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-pior-que-nao-vender-e-vender-errado.html</guid>
     <pubDate>Tue, 13 Jan 2026 09:00:00 +0000</pubDate>
     <category>Máquina de vendas</category>
     <description>Preço errado, carro-chefe errado e público errado tiram o lucro mesmo quando o faturamento cresce. Veja como a estratégia comercial faz a venda certa acontecer.</description>
   </item>
   <item>
     <title>Sem estratégia de marca, toda ação vira tentativa e erro, e sai caro</title>
-    <link>https://growth.etc.br/blog-sem-estrategia-de-marca.html</link>
-    <guid isPermaLink="true">https://growth.etc.br/blog-sem-estrategia-de-marca.html</guid>
+    <link>https://www.growthetc.com.br/blog-sem-estrategia-de-marca.html</link>
+    <guid isPermaLink="true">https://www.growthetc.com.br/blog-sem-estrategia-de-marca.html</guid>
     <pubDate>Thu, 04 Dec 2025 09:00:00 +0000</pubDate>
     <category>Branding</category>
     <description>Começar pela logo, pelo site e pelas redes sem estratégia de marca é uma das dores mais caras do mercado. Veja os sintomas e o que compõe uma Brand Strategy.</description>
