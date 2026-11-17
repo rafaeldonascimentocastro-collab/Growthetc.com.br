@@ -826,7 +826,12 @@ a.ccard:hover { border-color: var(--ink); }
 @media (min-width: 900px) {
   .creator { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(40px, 6vw, 88px); }
   .creator-media { aspect-ratio: 4 / 5; max-width: none; }
+  .creator--rev { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); }
+  .creator--rev .creator-media { order: 2; }
 }
+.creator + .creator, .campo-grid + .creator, .wrap + .wrap.creator { margin-top: clamp(56px, 8vw, 104px); }
+.creator-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.creator-tags li { padding: 6px 12px; border-radius: 999px; background: var(--paper); font-size: .875rem; font-weight: 500; line-height: 1.3; }
 
 /* resultados: depoimentos e imprensa */
 .cards3 { display: grid; gap: 12px; }
