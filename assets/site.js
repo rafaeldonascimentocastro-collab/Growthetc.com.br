@@ -388,10 +388,10 @@
       }
     } catch (e) {}
   }
-  /* ---------- carrossel de serviços (Home): troca a cada 5 s, pausa ao passar o mouse/focar, arrastar no celular ---------- */
+  /* ---------- carrossel de serviços (Home): rotação contínua a cada 5 s (só para no botão de pausa), arrastar no celular ---------- */
   [].slice.call(d.querySelectorAll('[data-carousel]')).forEach(function (car) {
     var slides = [].slice.call(car.querySelectorAll('.hc-slide')), dots = [].slice.call(car.querySelectorAll('.hc-dot'));
-    var play = car.querySelector('.hc-play'), cur = 0, timer = null, hold = false, stopped = reduce, DELAY = 5000;
+    var play = car.querySelector('.hc-play'), cur = 0, timer = null, hold = false, stopped = false, DELAY = 5000;
     if (slides.length < 2) return;
     function go(i) {
       cur = (i + slides.length) % slides.length;
@@ -411,10 +411,6 @@
     if (prev) prev.addEventListener('click', function () { go(cur - 1); tick(); });
     if (next) next.addEventListener('click', function () { go(cur + 1); tick(); });
     if (play) play.addEventListener('click', function () { setStopped(!stopped); });
-    car.addEventListener('mouseenter', function () { hold = true; tick(); });
-    car.addEventListener('mouseleave', function () { hold = false; tick(); });
-    car.addEventListener('focusin', function () { hold = true; tick(); });
-    car.addEventListener('focusout', function (e) { if (!car.contains(e.relatedTarget)) { hold = false; tick(); } });
     car.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') { go(cur + 1); tick(); } else if (e.key === 'ArrowLeft') { go(cur - 1); tick(); } else return;
       if (car.contains(d.activeElement) && d.activeElement.classList.contains('hc-slide')) slides[cur].focus();
@@ -428,7 +424,6 @@
       if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { moved = true; go(cur + (dx < 0 ? 1 : -1)); tick(); }
     }, { passive: true });
     car.addEventListener('click', function (e) { if (moved && e.target.closest('.hc-slide')) { e.preventDefault(); moved = false; } }, true);
-    if (play && reduce) setStopped(true);
-    tick();
+    setStopped(false);
   });
 })();
