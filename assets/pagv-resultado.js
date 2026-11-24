@@ -30,7 +30,7 @@
   }).join('');
   if (mem.empresa) $('#pr-emp').value = mem.empresa;
   function niveisAtuais() { var a = []; for (var i = 0; i < 6; i++) a.push($('#lv' + i).value.trim()); return a; }
-  function baseUrl() { return /^https?:/.test(location.protocol) ? new URL('pagv.html', location.href).href : 'https://growth.etc.br/pagv.html'; }
+  function baseUrl() { return /^https?:/.test(location.protocol) ? new URL('pagv.html', location.href).href : 'https://www.growthetc.com.br/pagv.html'; }
   function atualizaLink() {
     var nv = niveisAtuais(); while (nv.length && !nv[nv.length - 1]) nv.pop();
     var emp = $('#pr-emp').value.trim();
