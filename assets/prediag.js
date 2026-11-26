@@ -243,7 +243,7 @@
   function two(v) { return ('0' + v).slice(-2); }
 
   /* ---------- interesse vindo do botão clicado em outra página (#frente-…) ---------- */
-  var FRENTES = { inovacao: 'Inovação e Estratégia', branding: 'Marca (Branding)', social: 'Redes sociais e anúncios', seo: 'Google e IA (SEO)', vendas: 'Vendas e CRM' };
+  var FRENTES = { inovacao: 'Inovação e Estratégia', branding: 'Marca (Branding)', marketing: 'Marketing', social: 'Redes sociais e anúncios', seo: 'Google e IA (SEO)', vendas: 'Vendas e CRM' };
   (function () {
     var m = /^#frente-([a-z]+)/.exec(location.hash || ''), f = m && FRENTES[m[1]];
     var inp = form.elements.namedItem('Frente de interesse'), chip = d.getElementById('wiz-chip');

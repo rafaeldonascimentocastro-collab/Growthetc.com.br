@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 560" role="img" aria-label="Ciclo de marketing em quatro etapas: criar, distribuir, medir e aprender">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#182933"/><stop offset=".65" stop-color="#213643"/><stop offset="1" stop-color="#4A3329"/></linearGradient>
+    <radialGradient id="glow" cx="1" cy="0" r=".9"><stop offset="0" stop-color="#DF5D2B" stop-opacity=".28"/><stop offset="1" stop-color="#DF5D2B" stop-opacity="0"/></radialGradient>
+    <marker id="ar" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#F17F53"/></marker>
+  </defs>
+  <rect width="840" height="560" fill="url(#bg)"/>
+  <rect width="840" height="560" fill="url(#glow)"/>
+  <circle cx="420" cy="280" r="170" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1.5"/>
+  <g fill="none" stroke="#F17F53" stroke-width="2.5" marker-end="url(#ar)">
+    <path d="M462 116 A170 170 0 0 1 580 232"/>
+    <path d="M580 328 A170 170 0 0 1 462 444"/>
+    <path d="M378 444 A170 170 0 0 1 260 328"/>
+    <path d="M260 232 A170 170 0 0 1 378 116"/>
+  </g>
+  <g font-family="Outfit, Segoe UI, sans-serif" text-anchor="middle">
+    <g transform="translate(420 110)"><circle r="40" fill="#DF5D2B"/><text y="7" font-size="20" font-weight="500" fill="#fff">01</text></g>
+    <g transform="translate(590 280)"><circle r="40" fill="#fff"/><text y="7" font-size="20" font-weight="500" fill="#182933">02</text></g>
+    <g transform="translate(420 450)"><circle r="40" fill="#fff"/><text y="7" font-size="20" font-weight="500" fill="#182933">03</text></g>
+    <g transform="translate(250 280)"><circle r="40" fill="#fff"/><text y="7" font-size="20" font-weight="500" fill="#182933">04</text></g>
+    <text x="420" y="50" font-size="22" fill="#E4EAEE">Criar</text>
+    <text x="700" y="287" font-size="22" fill="#E4EAEE">Distribuir</text>
+    <text x="420" y="525" font-size="22" fill="#E4EAEE">Medir</text>
+    <text x="140" y="287" font-size="22" fill="#E4EAEE">Aprender</text>
+    <text x="420" y="276" font-size="30" font-weight="300" fill="#fff">Marketing</text>
+    <text x="420" y="306" font-size="16" fill="#A8B5BE">como sistema</text>
+  </g>
+</svg>

@@ -273,7 +273,7 @@
       return r.json().then(function (j) { return r.ok && j && (j.success === true || j.success === 'true'); }, function () { return false; });
     }, function () { clearTimeout(timer); return false; });
   }
-  var FRENTE_DESAFIO = { 'frente-inovacao': 'Estratégia que nunca sai do papel', 'frente-branding': 'Marca que não atrai o cliente certo', 'frente-social': 'Anúncios sem retorno', 'frente-seo': 'Invisível no Google e nas IAs', 'frente-vendas': 'Time comercial sem processo' };
+  var FRENTE_DESAFIO = { 'frente-inovacao': 'Estratégia que nunca sai do papel', 'frente-branding': 'Marca que não atrai o cliente certo', 'frente-marketing': 'Marketing que não trabalha junto', 'frente-social': 'Anúncios sem retorno', 'frente-seo': 'Invisível no Google e nas IAs', 'frente-vendas': 'Time comercial sem processo' };
   [].slice.call(d.querySelectorAll('form[data-lead]')).forEach(function (form) {
     var tipo = form.getAttribute('data-lead');
     var EP = form.getAttribute('data-endpoint') || CFG.leadEndpoint || '';
@@ -378,4 +378,52 @@
       else track('generate_lead', { form: lead.tipo || tp, lead_type: tp, desafio: lead.desafio || '', origem: originText(' · ') || 'direto' });
     }
   }
+  /* ---------- "Voltar ao site" (pré-diagnóstico): retorna à página de origem, se veio do próprio site ---------- */
+  var back = d.querySelector('.lp-hd-link--back');
+  if (back) {
+    try {
+      var ref = d.referrer ? new URL(d.referrer) : null;
+      if (ref && ref.origin === location.origin && ref.pathname !== location.pathname && !/obrigado/.test(ref.pathname)) {
+        back.setAttribute('href', ref.pathname + ref.search);
+      }
+    } catch (e) {}
+  }
+  /* ---------- carrossel de serviços (Home): rotação contínua a cada 5 s (só para no botão de pausa), arrastar no celular ---------- */
+  [].slice.call(d.querySelectorAll('[data-carousel]')).forEach(function (car) {
+    var slides = [].slice.call(car.querySelectorAll('.hc-slide')), dots = [].slice.call(car.querySelectorAll('.hc-dot'));
+    var play = car.querySelector('.hc-play'), cur = 0, timer = null, hold = false, stopped = false, DELAY = 5000;
+    if (slides.length < 2) return;
+    function go(i) {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        var on = k === cur;
+        s.classList.toggle('is-on', on);
+        if (on) { s.removeAttribute('aria-hidden'); s.removeAttribute('tabindex'); }
+        else { s.setAttribute('aria-hidden', 'true'); s.setAttribute('tabindex', '-1'); }
+      });
+      dots.forEach(function (b, k) { if (k === cur) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+      var img = slides[(cur + 1) % slides.length].querySelector('img'); if (img) img.loading = 'eager';
+    }
+    function tick() { clearTimeout(timer); if (!stopped && !hold && !d.hidden) timer = setTimeout(function () { go(cur + 1); tick(); }, DELAY); }
+    function setStopped(v) { stopped = v; if (play) { play.setAttribute('aria-pressed', v ? 'true' : 'false'); play.setAttribute('aria-label', v ? 'Retomar carrossel' : 'Pausar carrossel'); } tick(); }
+    dots.forEach(function (b, k) { b.addEventListener('click', function () { go(k); tick(); track('hero_carousel_nav', { to: k + 1 }); }); });
+    var prev = car.querySelector('.hc-prev'), next = car.querySelector('.hc-next');
+    if (prev) prev.addEventListener('click', function () { go(cur - 1); tick(); });
+    if (next) next.addEventListener('click', function () { go(cur + 1); tick(); });
+    if (play) play.addEventListener('click', function () { setStopped(!stopped); });
+    car.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { go(cur + 1); tick(); } else if (e.key === 'ArrowLeft') { go(cur - 1); tick(); } else return;
+      if (car.contains(d.activeElement) && d.activeElement.classList.contains('hc-slide')) slides[cur].focus();
+    });
+    d.addEventListener('visibilitychange', tick);
+    var x0 = null, y0 = 0, moved = false;
+    car.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
+    car.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { moved = true; go(cur + (dx < 0 ? 1 : -1)); tick(); }
+    }, { passive: true });
+    car.addEventListener('click', function (e) { if (moved && e.target.closest('.hc-slide')) { e.preventDefault(); moved = false; } }, true);
+    setStopped(false);
+  });
 })();
